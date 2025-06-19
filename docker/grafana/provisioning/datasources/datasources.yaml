@@ -1,4 +1,4 @@
----
+docker-compose up
 apiVersion: 1
 
 deleteDatasources:
