@@ -1,0 +1,306 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 15,
+  "links": [],
+  "panels": [
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!-- Main content -->\n<div style=\"display: flex; justify-content: space-between; align-items: center;\">\n  <!-- H2 with a link -->\n   <a href=\"https://github.com/cosmostation/cvms\" target=\"_blank\" style=\"text-decoration: none; color: inherit;\">\n    <h2 style=\"margin-right: 10px;\">Cosmos Validator Monitoring Service (CVMS) 🌌 🔭</h2>\n  </a> \n  <!-- \"Powered by Cosmostation\" on the right -->\n  <div style=\"display: flex; align-items: center;\">\n    <a href=\"https://cosmostation.io\" target=\"_blank\" style=\"text-decoration: none; color: inherit;\">\n        <span>Powered by Cosmostation </span>\n        <img src=\"https://raw.githubusercontent.com/cosmostation/chainlist/refs/heads/main/resource/cosmostation/cosmostation_color.svg\" alt=\"Logo\" style=\"height: 30px; margin-left: 5px;\">\n    </a>\n  </div>\n</div>\n\n<!-- Paragraph below the header -->\n<p>\n  The Cosmos Validator Monitoring Service (CVMS) is an open-source, integrated monitoring system designed for validators and network in the Cosmos app chain ecosystem.<br/>\n  This public dashboard is part of the beta launch, with the open-source repository coming soon.\n</p>\n<p>\n  <a href=\"https://public-cosmos-vms.cosmostation.io/d/be37h6ce99dz4e/network-duty-dashboard?from=now-30m\" target=\"_blank\" style=\"text-decoration: none; color: #1E90FF;\">\n    👉 Validator Duty Overview Click Here\n  </a> \n  <a href=\"https://public-cosmos-vms.cosmostation.io\" target=\"_blank\" style=\"text-decoration: none; color: #1E90FF;\">\n    👉 Validator Consensus Overview Click Here\n  </a> \n</p>",
+        "mode": "html"
+      },
+      "pluginVersion": "12.0.2",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cvms_indexer_db"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "cvms_indexer_db"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "\nSELECT \n    vi.moniker, \n    COUNT(CASE WHEN status = 1 THEN 1 END) AS missed,\n    COUNT(CASE WHEN status = 2 THEN 1 END) AS commited,\n    COUNT(CASE WHEN status = 3 THEN 1 END) AS proposed\nFROM voteindexer_${chain_id} vidx\nJOIN meta.validator_info vi ON vidx.validator_hex_address_id = vi.id\nWHERE height > ((SELECT MAX(height) FROM voteindexer_${chain_id}) - ${blocks})\nGROUP BY vi.moniker\norder by missed desc\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Validator Performance (Last${blocks} Blocks)",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "cvms_indexer_db"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 1,
+      "options": {
+        "allData": {},
+        "config": {},
+        "data": [],
+        "imgFormat": "png",
+        "layout": {
+          "font": {
+            "family": "Inter, Helvetica, Arial, sans-serif"
+          },
+          "margin": {
+            "b": 0,
+            "l": 0,
+            "r": 0,
+            "t": 0
+          },
+          "title": {
+            "automargin": true
+          },
+          "xaxis": {
+            "automargin": true,
+            "autorange": true,
+            "type": "date"
+          },
+          "yaxis": {
+            "automargin": true,
+            "autorange": true
+          }
+        },
+        "onclick": "// Event handling\n/*\n// 'data', 'variables', 'options', 'utils', and 'event' are passed as arguments\n\ntry {\n  const { type: eventType, data: eventData } = event;\n  const { timeZone, dayjs, locationService, getTemplateSrv } = utils;\n\n  switch (eventType) {\n    case 'click':\n      console.log('Click event:', eventData.points);\n      break;\n    case 'select':\n      console.log('Selection event:', eventData.range);\n      break;\n    case 'zoom':\n      console.log('Zoom event:', eventData);\n      break;\n    default:\n      console.log('Unhandled event type:', eventType, eventData);\n  }\n\n  console.log('Current time zone:', timeZone);\n  console.log('From time:', dayjs(variables.__from).format());\n  console.log('To time:', dayjs(variables.__to).format());\n\n  // Example of using locationService\n  // locationService.partial({ 'var-example': 'test' }, true);\n\n} catch (error) {\n  console.error('Error in onclick handler:', error);\n}\n*/\n  ",
+        "resScale": 2,
+        "script": "// Extracting the SQL data\nlet series = data.series[0];  // Access the data series\nif (!series || series.length === 0 || series.fields[0].values.length === 0) {\n  // Query result has no records, so skip the chart rendering\n  return {\n      data: [],\n    layout: {\n      title: 'No Data Available',\n      height: 10, // Reduce panel height\n      margin: {\n        l: 20,  // Left margin\n        r: 20,  // Right margin\n        t: 40,  // Top margin\n        b: 40   // Bottom margin\n      }\n    }\n  };\n}\n\n// Start data processing\nlet height = series.fields[0];  // Block height\nlet voted = series.fields[1];   // Voted status (0 = Inactive, 1 = Missed, 2 = Voted, 3 = Proposed)\nlet moniker = series.fields[2]; // Moniker (Validator name)\n\n\nif (moniker.values[0].length > 90) {\n  // Shorten the moniker values before sorting and using them\n  let shortenedMonikers = moniker.values.map(m => shortenMoniker(m));\n  moniker.values = shortenedMonikers;\n}\n\n// Get unique monikers and heights from the dataset for rows and columns\nlet uniqueMonikers = [...new Set(moniker.values)].sort().reverse();  // Unique monikers for Y-axis\nlet uniqueHeights = [...new Set(height.values)].sort().reverse();    // Unique block heights for X-axis\n\n// Initialize the 2D array (zValues) for the heatmap, default to 0 (Inactive)\nlet zValues = Array(uniqueMonikers.length).fill(null).map(() => Array(uniqueHeights.length).fill(0));\nlet hoverText = Array(uniqueMonikers.length).fill(null).map(() => Array(uniqueHeights.length).fill(\"\"));\n\n// Populate zValues with voted data (0 = Inactive, 1 = Missed, 2 = Voted, 3 = Proposed)\nfor (let i = 0; i < height.values.length; i++) {\n  let rowIndex = uniqueMonikers.indexOf(moniker.values[i]);  // Find the correct row for the moniker\n  let colIndex = uniqueHeights.indexOf(height.values[i]);    // Find the correct column for the height\n  zValues[rowIndex][colIndex] = voted.values[i];  // Assign the voted status\n  let statusMeaning = getStatusMeaning(voted.values[i]);  // Get the status meaning\n  hoverText[rowIndex][colIndex] = `x: ${height.values[i]}<br>y: ${moniker.values[i]}<br>z: ${statusMeaning}`;  // Custom hover info with status meaning    \n}\n\n// Define a continuous color scale for smoother transitions\nlet colorScale = [\n  [0, 'rgba(128, 128, 128, 0.5)'],    // Inactive = gray\n  [0.33, 'rgba(255, 0, 0, 0.5)'],     // Missed = red\n  [0.66, 'rgba(0, 0, 0, 0.5)'],       // Voted = black\n  [1, 'rgba(0, 255, 0, 0.5)'],        // Proposed = green\n];\n\n\n// Return the heatmap configuration for Plotly\nreturn {\n  data: [{\n    z: zValues,               // 2D array of statuses (0, 1, 2, 3)\n    x: uniqueHeights,         // Block heights for X-axis\n    y: uniqueMonikers,        // Monikers for Y-axis\n    type: 'heatmap',          // Plotly heatmap type\n    colorscale: colorScale,   // Use only two colors for discrete values\n    showscale: false,         // Hide the color scale bar\n    zmin: 0,                  // Set the minimum value for z (status)\n    zmax: 3,                  // Set the maximum value for z (status)\n    xgap: 5,                  // Add gap between cells along the X-axis (adjust the value for bigger gaps)\n    ygap: 5,                   // Add gap between cells along the Y-axis (adjust the value for bigger gaps)    \n    text: hoverText,          // Set the hoverText for the heatmap\n    hoverinfo: 'text'         // Display the hoverText    \n  }],\n  layout: {\n    xaxis: {\n      type: 'category',\n      tickmode: 'linear',\n      showgrid: true,          // Ensure gridlines on X-axis\n      tickformat: '.0f',\n      tickangle: -45,          // Rotate labels for better readability\n    },\n    yaxis: {\n      tickmode: 'array',        // Use tickmode 'array' to manually set Y-axis labels\n      tickvals: uniqueMonikers, // Set tick values to all unique monikers\n      ticktext: uniqueMonikers, // Display all monikers as text on Y-axis\n      showgrid: true            // Ensure gridlines on Y-axis\n    },\n    margin: {\n      l: 200,  // Adjust margin for longer moniker names\n      t: 20,   // Reduce top margin\n      b: 120,  // Adjust bottom margin for X-axis labels\n    }\n  }\n};\n\n// Function to map the voted status to its corresponding meaning\nfunction getStatusMeaning(status) {\n  switch(status) {\n    case 0:\n      return 'Inactive';\n    case 1:\n      return 'Missed';\n    case 2:\n      return 'Voted';\n    case 3:\n      return 'Proposed';\n    default:\n      return 'Unknown';\n  }\n}\n\n// Function to shorten long moniker values\nfunction shortenMoniker(moniker, startLength = 6, endLength = 4) {\n  if (moniker.length > (startLength + endLength)) {\n    return `${moniker.substring(0, startLength)}...${moniker.substring(moniker.length - endLength)}`;\n  }\n  return moniker;  // If it's already short, return as-is\n}",
+        "syncTimeRange": false,
+        "timeCol": ""
+      },
+      "pluginVersion": "1.8.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "cvms_indexer_db"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": ";  -- Order in ascending order for the last 100 blocks\nWITH max_height AS (\n  SELECT MAX(height) AS highest_height\n  FROM voteindexer_${chain_id}\n)\nSELECT\n  vidx.height,\n  vidx.status,\n  vi.moniker AS moniker\nFROM\n  voteindexer_${chain_id} vidx\nJOIN\n  meta.validator_info vi\n  ON vidx.validator_hex_address_id = vi.id\nJOIN\n  max_height mh  -- Join to get the maximum block height\n  ON vidx.height BETWEEN (mh.highest_height - ${blocks}) AND mh.highest_height\nORDER by\n  vidx.height ASC\n  \n  ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Consensus Participation History",
+      "transparent": true,
+      "type": "nline-plotlyjs-panel"
+    }
+  ],
+  "preload": false,
+  "refresh": "5s",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "test6",
+          "value": "test6"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cvms_exporter_db"
+        },
+        "definition": "label_values(cvms_block_timestamp,table_chain_id)",
+        "includeAll": false,
+        "label": "Chain ID",
+        "name": "chain_id",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(cvms_block_timestamp,table_chain_id)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "gnoland",
+          "value": "gnoland"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cvms_exporter_db"
+        },
+        "definition": "label_values(cvms_block_timestamp{table_chain_id=\"$chain_id\"},chain)",
+        "includeAll": false,
+        "label": "Chain",
+        "name": "chain",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(cvms_block_timestamp{table_chain_id=\"$chain_id\"},chain)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "50",
+          "value": "50"
+        },
+        "label": "monitoring blocks",
+        "name": "blocks",
+        "options": [
+          {
+            "selected": true,
+            "text": "50",
+            "value": "50"
+          }
+        ],
+        "query": "50",
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Gnoland Consensus Dashboard",
+  "uid": "gnoland_dashboard",
+  "version": 2
+}

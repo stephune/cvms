@@ -23,6 +23,9 @@ var (
 
 		// Axelar
 		"axelar-amplifier-verifier",
+
+		// gnoland
+		"gnoland-voteindexer",
 	}
 
 	ExporterPackages = []string{

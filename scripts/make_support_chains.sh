@@ -60,7 +60,7 @@ IGNORE_CHAINS=(
   # polkadot
   "polkadot"
   # unsupported asset directories
-  "okc" "mintstation" "terra-classic"
+  "okc" "mintstation"
   # etc...
   "bostrom" "cerberus" "cheqd" "decentr" "dig-chain" "gno" "jupiter" "konstellation" "kujira" "meme" "microtick"
   "odin" "station" "supernova" "tgrade" "vidulum"

@@ -4,11 +4,8 @@ import (
 	"testing"
 
 	"github.com/cosmostation/cvms/internal/common"
-	"github.com/cosmostation/cvms/internal/helper/logger"
 	"github.com/stretchr/testify/assert"
 )
-
-var p = common.Packager{Logger: logger.GetTestLogger()}
 
 func TestCheckGetBlockResultAndExtractFpVoting(t *testing.T) {
 	commonApp := common.NewCommonApp(p)

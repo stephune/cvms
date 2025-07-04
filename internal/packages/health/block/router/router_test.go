@@ -24,27 +24,32 @@ func TestRequestBlockTimeStamp(t *testing.T) {
 		{
 			testingName: "CosomsChainType",
 			chainType:   "cosmos",
-			hostAddress: os.Getenv("TEST_COSMOS_HOST_ADDRESS"),
+			hostAddress: os.Getenv("TEST_BLOCK_COSMOS_HOST_ADDRESS"),
 		},
 		{
 			testingName: "EthereumChainType",
 			chainType:   "ethereum",
-			hostAddress: os.Getenv("TEST_ETHEREUM_HOST_ADDRESS"),
+			hostAddress: os.Getenv("TEST_BLOCK_ETHEREUM_HOST_ADDRESS"),
 		},
 		{
 			testingName: "Celestia Block Package Testing",
 			chainType:   "celestia",
-			hostAddress: os.Getenv("TEST_CELESTIA_HOST_ADDRESS"),
+			hostAddress: os.Getenv("TEST_BLOCK_CELESTIA_HOST_ADDRESS"),
 		},
 		{
 			testingName: "Bera Block Package Testing",
 			chainType:   "ethereum",
-			hostAddress: os.Getenv("TEST_BERA_HOST_ADDRESS"),
+			hostAddress: os.Getenv("TEST_BLOCK_BERA_HOST_ADDRESS"),
 		},
 		{
 			testingName: "Namada Block Package Testing",
 			chainType:   "cosmos",
-			hostAddress: os.Getenv("TEST_NAMADA_HOST_ADDRESS"),
+			hostAddress: os.Getenv("TEST_BLOCK_NAMADA_HOST_ADDRESS"),
+		},
+		{
+			testingName: "Gnoland Block Package Testing",
+			chainType:   "gnoland",
+			hostAddress: os.Getenv("TEST_BLOCK_GNOLAND_HOST_ADDRESS"),
 		},
 	}
 

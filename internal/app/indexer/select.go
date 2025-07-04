@@ -8,11 +8,14 @@ import (
 	// axelar specific
 	aavindexer "github.com/cosmostation/cvms/internal/packages/axelar/amplifier-verifier/indexer"
 
-	// babylon specfic
+	// babylon specific
 	btclcindexer "github.com/cosmostation/cvms/internal/packages/babylon/btc-lightclient/indexer"
 	bcindexer "github.com/cosmostation/cvms/internal/packages/babylon/checkpoint/indexer"
 	bcsindexer "github.com/cosmostation/cvms/internal/packages/babylon/covenant-committee/indexer"
 	bfpindexer "github.com/cosmostation/cvms/internal/packages/babylon/finality-provider/indexer"
+
+	// gnoland specific
+	gvtindexer "github.com/cosmostation/cvms/internal/packages/gnoland/voteindexer"
 
 	// cosmos native
 	bdaindexer "github.com/cosmostation/cvms/internal/packages/block-data-analytics/indexer"
@@ -185,6 +188,22 @@ func selectPackage(
 			return errors.Wrap(err, common.ErrFailedToBuildPackager)
 		}
 		return bdaindexer.Start()
+	case pkg == "gnoland-voteindexer":
+		if m == common.VALIDATOR {
+			l.Infof("%s don't need to enable this package. CVMS will ignore %s package", m, pkg)
+			return nil
+		}
+		endpoints := common.Endpoints{RPCs: validRPCs, CheckRPC: true}
+		p, err := common.NewPackager(m, f, l, mainnet, chainID, chainName, pkg, protocolType, cc, endpoints, monikers...)
+		if err != nil {
+			return errors.Wrap(err, common.ErrFailedToBuildPackager)
+		}
+		p.SetIndexerDB(idb)
+		gvtindexer, err := gvtindexer.NewVoteIndexer(*p)
+		if err != nil {
+			return errors.Wrap(err, common.ErrFailedToBuildPackager)
+		}
+		return gvtindexer.Start()
 	}
 
 	return common.ErrUnSupportedPackage

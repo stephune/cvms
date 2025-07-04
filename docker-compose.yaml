@@ -3,8 +3,8 @@ x-logging: &logging
     driver: json-file
     options:
       max-size: 100m
-      max-file: '3'
-      tag: '{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}'
+      max-file: "3"
+      tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
 services:
   exporter:
@@ -13,7 +13,7 @@ services:
     image: cosmostation/cvms:latest
     container_name: cvms-exporter
     restart: unless-stopped
-    ports: ['${EXPORTER_PORT:-9200}:9200']
+    ports: ["${EXPORTER_PORT:-9200}:9200"]
     entrypoint: [/bin/cvms]
     command:
       [
@@ -21,9 +21,9 @@ services:
         exporter,
         --config=/var/lib/cvms/config.yaml,
         --log-color-disable,
-        '${LOG_COLOR_DISABLE:-false}',
+        "${LOG_COLOR_DISABLE:-false}",
         --log-level,
-        '${LOG_LEVEL:-4}',
+        "${LOG_LEVEL:-4}",
         --port=9200,
       ]
     volumes:
@@ -60,7 +60,7 @@ services:
     image: cosmostation/cvms:latest
     container_name: cvms-indexer
     restart: unless-stopped
-    ports: ['${INDEXER_PORT:-9300}:9300']
+    ports: ["${INDEXER_PORT:-9300}:9300"]
     entrypoint: [/bin/cvms]
     command:
       [
@@ -68,9 +68,9 @@ services:
         indexer,
         --config=/var/lib/cvms/config.yaml,
         --log-color-disable,
-        '${LOG_COLOR_DISABLE:-false}',
+        "${LOG_COLOR_DISABLE:-false}",
         --log-level,
-        '${LOG_LEVEL:-4}',
+        "${LOG_LEVEL:-4}",
         --port=9300,
       ]
     environment:
@@ -156,7 +156,7 @@ services:
   promtail:
     image: grafana/promtail:latest
     container_name: cvms-promtail
-    restart: 'unless-stopped'
+    restart: "unless-stopped"
     user: root
     volumes:
       - /etc/machine-id:/etc/machine-id:ro
@@ -164,27 +164,27 @@ services:
       - promtail-volume:/tmp
       - ${DOCKER_ROOT:-/var/lib/docker}/containers:/var/lib/docker/containers:ro,rslave
     command:
-      - '--config.file=/etc/promtail/promtail-config.yaml'
-    networks: ['cvms-net']
-    depends_on: ['loki']
+      - "--config.file=/etc/promtail/promtail-config.yaml"
+    networks: ["cvms-net"]
+    depends_on: ["loki"]
     <<: *logging
 
   loki:
     image: grafana/loki:latest
     container_name: cvms-loki
-    restart: 'unless-stopped'
+    restart: "unless-stopped"
     volumes:
       - loki-volume:/tmp
       - ./docker/loki:/etc/loki
     command:
-      - '--config.file=/etc/loki/loki.yaml'
-    networks: ['cvms-net']
+      - "--config.file=/etc/loki/loki.yaml"
+    networks: ["cvms-net"]
     <<: *logging
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: cvms-cadvisor
-    restart: 'unless-stopped'
+    restart: "unless-stopped"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro,rslave
@@ -194,7 +194,7 @@ services:
     command:
       - --docker_only
       - --housekeeping_interval=30s
-    networks: ['cvms-net']
+    networks: ["cvms-net"]
     <<: *logging
 
 networks:

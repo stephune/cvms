@@ -826,7 +826,7 @@ lum-network-1:
     - upgrade
     - uptime
     - voteindexer
-lumera-testnet-1:
+lumera-testnet-2:
   chain_name: lumera
   protocol_type: cosmos
   mainnet: false
@@ -1120,6 +1120,18 @@ phoenix-1:
     - upgrade
     - uptime
     - voteindexer
+columbus-5:
+  chain_name: terra-classic
+  protocol_type: cosmos
+  mainnet: true
+  support_asset:
+    denom: uluna
+    decimal: 6
+  packages:
+    - block
+    - upgrade
+    - uptime
+    - voteindexer
 pio-mainnet-1:
   chain_name: provenance
   protocol_type: cosmos
@@ -1279,7 +1291,7 @@ ssc-1:
     - upgrade
     - uptime
     - voteindexer
-ssc-testnet-2:
+ssc-testnet-3:
   chain_name: saga
   protocol_type: cosmos
   mainnet: false
@@ -1389,6 +1401,14 @@ teritori-1:
     - upgrade
     - uptime
     - voteindexer
+test6:
+  chain_name: gnoland
+  protocol_type: gnoland
+  mainnet: false
+  support_asset:
+  packages:
+    - block
+    - gnoland-voteindexer
 test-core-2:
   chain_name: persistence
   protocol_type: cosmos

@@ -1011,6 +1011,18 @@ data:
         - upgrade
         - uptime
         - voteindexer
+    columbus-5:
+      chain_name: terra-classic
+      protocol_type: cosmos
+      mainnet: true
+      support_asset:
+        denom: uluna
+        decimal: 6
+      packages:
+        - block
+        - upgrade
+        - uptime
+        - voteindexer
     pio-mainnet-1:
       chain_name: provenance
       protocol_type: cosmos

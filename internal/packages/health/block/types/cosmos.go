@@ -9,7 +9,6 @@ const (
 
 type CosmosV34BlockResponse struct {
 	JsonRPC string `json:"jsonrpc" validate:"required"`
-	ID      int    `json:"id" validate:"required"`
 	Result  struct {
 		NodeInfo map[string]any `json:"node_info"`
 		SyncInfo struct {
